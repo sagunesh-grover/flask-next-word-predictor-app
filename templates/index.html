@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Next Word Predictor</title>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:500" rel="stylesheet">
+  <style>
+	/*#control {
+	 position:absolute;
+	  top:0;
+	  right:0;
+	}*/
+  </style>
+  
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css">  
+    <link rel="stylesheet" href="../static/css/style.css">
+
+	<style type="text/css">
+	.pointer{ 
+		cursor: pointer; 
+		}
+	
+	</style>
+
+
+
+<script>
+    
+    function saveTextAsFile()
+      {
+      	var textToWrite = document.getElementById("enteredText").value;
+      	var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+      	var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+      
+      	var downloadLink = document.createElement("a");
+      	downloadLink.download = fileNameToSaveAs;
+      	downloadLink.innerHTML = "Download File";
+      	/*
+      	if (window.webkitURL != null)
+      	{
+      		downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+      	}
+      	else
+      	{
+      	*/
+      		downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+      		downloadLink.onclick = destroyClickedElement;
+      		downloadLink.style.display = "none";
+      		document.body.appendChild(downloadLink);
+      	/*
+      	}
+      	*/
+      
+      	downloadLink.click();
+      }
+      
+      function destroyClickedElement(event)
+      {
+      	document.body.removeChild(event.target);
+      }
+      
+      function loadFileAsText()
+      {
+      	var fileToLoad = document.getElementById("fileToLoad").files[0];
+      
+      	var fileReader = new FileReader();
+      	fileReader.onload = function(fileLoadedEvent) 
+      	{
+      		var textFromFileLoaded = fileLoadedEvent.target.result;
+      		document.getElementById("enteredText").value = textFromFileLoaded;
+      	};
+      	fileReader.readAsText(fileToLoad, "UTF-8");
+      }
+      
+      
+      function storehtml(){
+        var b=document.getElementById("enteredText").value;
+        localStorage.setItem("content",b)
+      }
+      
+      function gethtml(){
+        if(localStorage.getItem("content")){
+        var a=localStorage.getItem("content");
+        }else {
+          a = "make notes..."
+        }
+        document.getElementById("enteredText").value=a;
+      }
+    
+    </script>
+  
+</head>
+
+<body>
+	<header class="pt-4 pb-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 header"><h1>SMART COMPOSE <span>EDITOR</span></h1></div>
+				<div class="col-sm-3"><a href="#"><img src="../static/images/logo.png" alt="Logo" /></a></div>
+				
+			</div>
+		</div>
+	</header>
+	<section>
+		<div class="container">  
+	<div id="control">	
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class=" input-group"><input id="inputFileNameToSaveAs" class="form-control"></input><button class="btn btn-primary" onclick="saveTextAsFile()">Save Text to File</button></div>
+			</div>
+	    	<div class="col-md-6 col-sm-12 mt-3 m-md-0">
+	    		<div class=" input-group"><input type="file" id="fileToLoad" class="form-control"></input><button class="btn btn-primary" onclick="loadFileAsText()">Load Selected File</button></div>
+	    	</div>
+		</div>	
+ 	 </div>
+
+    <script>
+      gethtml();
+    </script>  
+
+
+	<div id="text">
+		<textarea placeholder="Click here, then start typing!" class="form-control mt-3" id="enteredText" rows="5" cols="100" onkeypress="storehtml(this.id)"></textarea>
+	</div>
+
+
+	<div id="suggestions">
+		<div class="row mt-3 mb-3">
+	    	<div class="col-sm-4 pred"><div id="pred1" class="pointer">Pred 1</div></div>
+	    	<div class="col-sm-4 pred"><div id="pred2" class="pointer">Pred 2</div></div>
+	    	<div class="col-sm-4 pred"><div id="pred3" class="pointer">Pred 3</div></div> 	    
+	    </div>  
+	</div>
+
+	<script>
+		function insertAtCursor(myField, myValue) {
+			//IE support
+			if (document.selection) {
+				myField.focus();
+				sel = document.selection.createRange();
+				sel.text = myValue;
+			}
+			// Microsoft Edge
+			else if(window.navigator.userAgent.indexOf("Edge") > -1) {
+			  var startPos = myField.selectionStart; 
+			  var endPos = myField.selectionEnd; 
+				  
+			  myField.value = myField.value.substring(0, startPos)+ myValue 
+					 + myField.value.substring(endPos, myField.value.length); 
+			  
+			  var pos = startPos + myValue.length;
+			  myField.focus();
+			  myField.setSelectionRange(pos, pos);
+			}
+			//MOZILLA and others
+			else if (myField.selectionStart || myField.selectionStart == '0') {
+				var startPos = myField.selectionStart;
+				var endPos = myField.selectionEnd;
+				myField.value = myField.value.substring(0, startPos)
+					+ myValue
+					+ myField.value.substring(endPos, myField.value.length);
+			} else {
+				myField.value += myValue;
+			}
+		}
+		
+		function overlay(id_val)
+		{
+			var cookieValue = document.getElementById(id_val).innerHTML;
+			return " "+cookieValue+" ";
+		}
+	document.getElementById('pred1').onclick = function() {
+		
+		insertAtCursor(document.getElementById('enteredText'), overlay('pred1'));
+	}
+	
+	document.getElementById('pred2').onclick = function() {
+		
+		insertAtCursor(document.getElementById('enteredText'), overlay('pred2'));
+	}   
+
+	document.getElementById('pred3').onclick = function() {
+		
+		insertAtCursor(document.getElementById('enteredText'), overlay('pred3'));
+	}   
+	
+	</script>
+
+	<div id="keyboard">
+		<div id="firstrow" class="keyboard-row">
+			<kbd class="shifter" id="192">`</kbd>
+			<kbd class="shifter" id="49">1</kbd>
+			<kbd class="shifter" id="50">2</kbd>
+			<kbd class="shifter" id="51">3</kbd>
+			<kbd class="shifter" id="52">4</kbd>
+			<kbd class="shifter" id="53">5</kbd>
+			<kbd class="shifter" id="54">6</kbd>
+			<kbd class="shifter" id="55">7</kbd>
+			<kbd class="shifter" id="56">8</kbd>
+			<kbd class="shifter" id="57">9</kbd>
+			<kbd class="shifter" id="48">0</kbd>
+			<kbd class="shifter" id="189">-</kbd>
+			<kbd class="shifter" id="187">=</kbd>
+			<kbd class="long operationKey" id="8">del</kbd>
+		</div>
+		<div id="secondrow" class="keyboard-row">
+			<kbd class="long operationKey" id="9">tab</kbd>
+			<kbd id="81">q</kbd>
+			<kbd id="87">w</kbd>
+			<kbd id="69">e</kbd>
+			<kbd id="82">r</kbd>
+			<kbd id="84">t</kbd>
+			<kbd id="89">y</kbd>
+			<kbd id="85">u</kbd>
+			<kbd id="73">i</kbd>
+			<kbd id="79">o</kbd>
+			<kbd id="80">p</kbd>
+			<kbd class="shifter" id="219">[</kbd>
+			<kbd class="shifter" id="221">]</kbd>
+			<kbd class="shifter" id="220">\</kbd>
+		</div>
+		<div id="thirdrow" class="keyboard-row">
+			<kbd class="long operationKey" id="20">caps</kbd>
+			<kbd id="65">a</kbd>
+			<kbd id="83">s</kbd>
+			<kbd id="68">d</kbd>
+			<kbd id="70">f</kbd>
+			<kbd id="71">g</kbd>
+			<kbd id="72">h</kbd>
+			<kbd id="74">j</kbd>
+			<kbd id="75">k</kbd>
+			<kbd id="76">l</kbd>
+			<kbd class="shifter" id="186">;</kbd>
+			<kbd class="shifter" id="222">'</kbd>
+			<kbd class="long operationKey" id="13">return</kbd>
+		</div>
+		<div id="fourthrow" class="keyboard-row">
+			<kbd class="longer operationKey" id="16">shift</kbd>
+			<kbd id="90">z</kbd>
+			<kbd id="88">x</kbd>
+			<kbd id="67">c</kbd>
+			<kbd id="86">v</kbd>
+			<kbd id="66">b</kbd>
+			<kbd id="78">n</kbd>
+			<kbd id="77">m</kbd>
+			<kbd class="shifter" id="188">,</kbd>
+			<kbd class="shifter" id="190">.</kbd>
+			<kbd class="shifter" id="191">/</kbd>
+			<kbd class="longer operationKey" id="16">shift</kbd>
+		</div>
+		<div id="fifthrow" class="keyboard-row">
+			<kbd class="operationKey" id="188">fn</kbd>
+			<kbd class="operationKey" id="17">ctrl</kbd>
+			<kbd class="operationKey" id="18">opt</kbd>
+			<kbd class="long operationKey" id="91">⌘</kbd>
+			<kbd class="spacebar operationKey" id="32">&nbsp;</kbd>
+			<kbd class="long operationKey" id="91">⌘</kbd>
+			<kbd class="operationKey" id="18">opt</kbd>
+			<kbd class="operationKey" id="17">ctrl</kbd>
+			<kbd class="operationKey" id="188">fn</kbd>
+		</div>
+	</div>
+	</section>
+	
+
+</div>
+<!--<pre style="width: 100%; text-align: center;">Click the screen or type shift + delete to clear all text.</pre>-->
+  
+  	<script src="../static/js/jquery.min.js"></script>
+  	<script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/index.js"></script>
+
+</body>
+</html>

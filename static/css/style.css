@@ -1,0 +1,143 @@
+
+body {
+  font-size: 8px;
+  margin: 0;
+  font-family: Quicksand;  
+  padding: 0;
+}
+header a {
+  display: block;
+  text-align: right;
+}
+header a img {
+  max-width: 250px;
+  width: 100%;
+}
+.header {
+  display: flex;
+align-items: center;  
+}
+.header h1 {
+  font-size: 36px;  
+  margin: 0;
+  
+}
+.header h1 span {
+  color: #008266;
+}
+.pred {
+  border-right: 1px solid #333;
+  text-align: center;
+}
+.pred:last-child {
+  border-right: 0;
+}
+body #keyboard, body kbd {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: #ccc;
+  border: 0.2em solid #888b8d;
+  text-align: center;
+  font-family: Quicksand;
+}
+body kbd {
+  flex: 1;
+}
+body .keyboard-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 100%;
+}
+body #keyboard kbd {
+  line-height: 3.2em;
+  height: 3.2em;
+  width: 3.2em;
+  margin: .25em;
+  text-align: center;
+  color: #fff;
+  background-color: #53565a;
+  transition: background, position, top, box-shadow .1s;
+  box-shadow: 0px 2px 0px #888b8d;
+}
+body #keyboard kbd.long {
+  flex-grow: 1;
+  flex: 2;
+}
+body #keyboard kbd.longer {
+  flex-grow: 2;
+  flex: 3;
+}
+body #keyboard kbd.spacebar {
+  flex-grow: 14;
+  flex: 6;
+}
+body #keyboard .operationKey {
+  text-transform: none !important;
+}
+body #keyboard .pressed {
+  background: #ffd100;
+  position: relative;
+  top: 2px;
+  box-shadow: none;
+}
+body pre {
+  height: 3vh;
+  line-height: 3vh;
+}
+body .uppercase kbd {
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 10px;
+  }
+}
+@media (min-width: 960px) {
+  body {
+    font-size: 12px;
+  }
+}
+@media (min-width: 1080px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 575px) {
+  .pred {
+    border: none;
+  }
+  header a {
+    text-align: center; display: block;
+    }
+  .header {
+    display: block;    
+    text-align: center;    
+    margin-bottom: 10px;
+}
+}
