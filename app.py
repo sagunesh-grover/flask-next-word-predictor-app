@@ -5,7 +5,7 @@ import sys
 import nltk
 from nltk.corpus import brown
 from nltk.corpus import reuters
-from nltk.corpus import PlaintextCorpusReader
+#from nltk.corpus import PlaintextCorpusReader
 
 
 def get_trigram_freq(tokens):
@@ -55,10 +55,11 @@ def incomplete_pred(words, n):
     return preds
 
 app = Flask(__name__)
-new_corpus = PlaintextCorpusReader('./','.*')
+#new_corpus = PlaintextCorpusReader('./','.*')
 
 #tokens = nltk.word_tokenize(raw)
-tokens = brown.words() + new_corpus.words('my_corpus.txt')
+#tokens = brown.words() + new_corpus.words('my_corpus.txt')
+tokens = brown.words()
 #tokens = reuters.words()
 
 #compute frequency distribution for all the bigrams and trigrams in the text
